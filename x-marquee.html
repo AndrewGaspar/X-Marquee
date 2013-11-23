@@ -1,0 +1,32 @@
+﻿<polymer-element 
+    name="x-marquee" attributes="frequency" 
+    constructor="XMarquee" extends="span">
+    <script>
+        Polymer('x-marquee', {
+            frequency: 100,
+            start: function () {
+                if (!this._interval) {
+                    this._interval = setInterval(function () {
+                        var text = this.textContent;
+                        var char = text.charAt(0);
+                        this.textContent = text.substring(1, text.length) + char;
+                    }.bind(this), this.frequency);
+                }
+            },
+            stop: function () {
+                clearInterval(this._interval);
+                this._interval = null;
+            },
+            enteredView: function () {
+                this.start();
+            },
+            leftView: function () {
+                this.stop();
+            },
+            frequencyChanged: function () {
+                this.stop();
+                this.start();
+            }
+        });
+    </script>
+</polymer-element>
